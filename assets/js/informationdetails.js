@@ -1,0 +1,8 @@
+$("#getPostinfo").click(function() {
+
+
+
+
+})
+
+
