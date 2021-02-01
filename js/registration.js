@@ -22,63 +22,71 @@ $(() => {
         if (emailAgreement.checked && temrsAgreement.checked) {
             if (informationEmpty(fname, lname, email, password, password_confirmation, specialization)) {
                 if (nameNotValid(fname, lname)) {
-                    if (emailValidation(email)) {
-                        if (passwordValidation(password, password_confirmation, 6, 12)) {
-                            if (specializationNotValid(specialization)) {
-                                if (mobileNumberValidation(contact)) {
+                    emailValidation(email).then((emailResult) => {
+                        if (emailResult === "No User") {
+                            if (passwordValidation(password, password_confirmation, 6, 12)) {
+                                if (specializationNotValid(specialization)) {
+                                    if (mobileNumberValidation(contact)) {
+                                        $("#registration-error").html(``);
+                                        Swal.fire({
+                                            text: "Please Wait....",
+                                            allowOutsideClick: false,
+                                            showConfirmButton: false,
 
-                                    Swal.fire({
-                                        text: "Please Wait....",
-                                        allowOutsideClick: false,
-                                        showConfirmButton: false,
-
-                                        onBeforeOpen: () => {
-                                            Swal.showLoading();
-                                        },
-                                    });
-                                    firebase.auth().createUserWithEmailAndPassword(email, password).then(function (userCreds) {
-                                        //convert Formdata to JSON
-                                        var userData = {
-                                            "userId": userCreds.user.uid,
-                                            "fname": fname,
-                                            "lname": lname,
-                                            "email": email,
-                                            "password": password,
-                                            "specialization": specialization,
-                                            "contact": contact
-                                        };
-
-                                        var userRef = firebase.database().ref("Users").push();
-                                        userRef.set(userData, function (error) {
-                                            if (error) {
-                                                Swal.close();
-                                                var errorCode = error.code;
-                                                var errorMessage = error.message;
-                                                Swal.fire({
-                                                    icon: 'error',
-                                                    title: errorCode,
-                                                    text: errorMessage
-                                                })
-                                            } else {
-                                                Swal.close();
-                                                Swal.fire({
-                                                    position: 'center',
-                                                    icon: 'success',
-                                                    title: 'Successfully Registered!',
-                                                    text: 'Please wait for the Admin verification and Email Verification through your Email.',
-                                                    showConfirmButton: true,
-                                                }).then(function (result) {
-                                                    if (result.value) {
-                                                        window.location.href = "index.html"
-                                                    }
-                                                })
-                                            }
+                                            onBeforeOpen: () => {
+                                                Swal.showLoading();
+                                            },
                                         });
-                                    })
+                                        firebase.auth().createUserWithEmailAndPassword(email, password).then(function (userCreds) {
+                                            var createdUser = userCreds.user
+                                            createdUser.sendEmailVerification().then(function () {
+                                                //convert Formdata to JSON
+                                                var userData = {
+                                                    "userId": userCreds.user.uid,
+                                                    "fname": fname,
+                                                    "lname": lname,
+                                                    "email": email,
+                                                    "password": password,
+                                                    "specialization": specialization,
+                                                    "contact": contact
+                                                };
+
+                                                var userRef = firebase.database().ref(`Users/${userCreds.user.uid}`);
+                                                userRef.set(userData, function (error) {
+                                                    if (error) {
+                                                        Swal.close();
+                                                        var errorCode = error.code;
+                                                        var errorMessage = error.message;
+                                                        Swal.fire({
+                                                            icon: 'error',
+                                                            title: errorCode,
+                                                            text: errorMessage
+                                                        })
+                                                    } else {
+                                                        Swal.close();
+                                                        Swal.fire({
+                                                            position: 'center',
+                                                            icon: 'success',
+                                                            title: 'Successfully Registered!',
+                                                            text: 'Please wait for the Admin verification and Email Verification through your Email.',
+                                                            showConfirmButton: true,
+                                                        }).then(function (result) {
+                                                            if (result.value) {
+                                                                window.location.href = "index.html"
+                                                            }
+                                                        })
+                                                    }
+                                                });
+                                            })
+
+                                        })
+                                    }
                                 }
                             }
+                        } else {
+                            $("#registration-error").html(`<div class="alert alert-danger" role="alert">${emailResult}</div>`);
                         }
-                    }
+                    })
 
                 }
             }
@@ -169,27 +177,25 @@ function passwordValidation(password, confirmpassword, min, max) {
 
 //EMAIL VALIDATION
 function emailValidation(email) {
-    //email format validation values
-    var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-    var resultEmail;
-    if (email.match(regex)) {
+    return new Promise((resolve) => {
+        //email format validation values
+        var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
         var emailRef = firebase.database().ref("Users");
-        emailRef.orderByChild('email').equalTo(email).on("value", function (snapshot) {
-            resultEmail = snapshot.val();
-
-        })
-        if (resultEmail === null) {
-            return true;
+        var resultEmail;
+        if (email.match(regex)) {
+            emailRef.orderByChild('email').equalTo(email).once("value", function (snapshot) {
+                if (snapshot.exists()) {
+                    resolve("Email is already taken.")
+                } else {
+                    resolve("No User");
+                }
+            })
         } else {
-            $("#registration-error").html('<div class="alert alert-danger" role="alert">Email is already taken.</div>');
-            return false;
-
+            resolve('Email address should in "@ + any valid emails like gmail or yahoo."');
         }
-    } else {
-        $("#registration-error").html('<div class="alert alert-danger" role="alert">Email address should in "@ + any valid emails like gmail or yahoo."</div>');
-        return false;
-    }
 
+
+    })
 }
 
 function mobileNumberValidation(number) {

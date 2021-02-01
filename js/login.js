@@ -101,7 +101,7 @@ $(() => {
                                     timer: 1500
                                 })
                             } else {
-                                window.location.replace("user-home.html");
+                                window.location.replace("homepage.html");
 
                             }
                         } else {
