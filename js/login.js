@@ -154,7 +154,7 @@ function verificationResend() {
         Swal.fire({
             icon: "success",
             title: "Email Verification sent to your account",
-            text: "<strong>Note:</strong> Please check your email. Check your 'Spams' if nothing appears to your email."
+            text: "Note:Please check your email. Check your 'Spams' if nothing appears to your email."
         })
     }).catch(function (error) {
         Swal.fire({

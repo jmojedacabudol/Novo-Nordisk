@@ -1,6 +1,7 @@
   var preferenceForm;
   var userId;
   var userEmail;
+  var preferencesRef;
   $(() => {
 
 
@@ -12,23 +13,38 @@
           } else {
               userId = user.uid;
               userEmail = user.email;
+              preferencesRef = firebase.database().ref('Preferences').child(userId);
           }
       })
 
       $("#preferencesForm").submit(function (event) {
           event.preventDefault();
           preferenceForm = new FormData(this);
-          var preferencesRef = firebase.database().ref('Preferences').child(userId);
           var counter = 0;
           var preferences = new Map();
           // preferenceForm.append('userId', userId);
+          //get the inputs in bot receive and communication
+            var communicationInput=$("#others-coms").val();
+            var recieve=$("#others-receive").val();
 
+           
           for (var value of preferenceForm.values()) {
               if (value !== "") {
                   preferences[`preference${counter}`] = value;
                   counter++;
               }
           }
+
+          
+          if(communicationInput!==""){
+            preferences[`others-coms`] = communicationInput;
+          
+             }
+            if(recieve!==""){
+            preferences[`others-receive`] = recieve;
+         
+            }
+
           // console.log(preferences);
           Swal.fire({
               text: "Please Wait....",
@@ -130,8 +146,9 @@
       var formPreference = new Map();
       var preferences = new Map();
       var counter = 0;
-      var preferencesRef = firebase.database().ref('Preferences').child(userId);;
-
+      var preferencesRef = firebase.database().ref('Preferences').child(userId);
+      var communicationInput=$("#others-coms").val();
+      var recieve=$("#others-receive").val();
       //   $(preferenceForm).each(function (i, field) {
       //       if (field.value !== "") {
       //           preferences[`preference${counter}`] = field.value;
@@ -147,6 +164,18 @@
               counter++;
           }
       });
+
+     
+
+      if(communicationInput!==""){
+        preferences[`others-coms`] = communicationInput;
+        formPreference.set(`others-coms`, communicationInput);
+         }
+        if(recieve!==""){
+        preferences[`others-receive`] = recieve;
+        formPreference.set(`others-receive`, recieve);
+        }
+
       //   console.log(preferences)
       //   console.log(preferences.size)
       if (formPreference.size !== 0) {
@@ -402,6 +431,53 @@
 
       })
   }
+
+function loadOldPreference(){
+
+    Swal.fire({
+        text: "Please Wait....",
+        allowOutsideClick: false,
+        showConfirmButton: false,
+
+        onBeforeOpen: () => {
+            Swal.showLoading();
+        },
+    });
+
+ 
+
+    // $(preferenceForm).each(function (i, field) {
+    //     if (field.value !== "") {
+    //         // formPreference.set(`preference${counter}`, field.value);
+    //         // preferences[`preference${counter}`] = field.value;
+          
+
+    //     }
+    // });
+
+    preferencesRef.once("value").then(preferencesResult => {
+        if (preferencesResult.exists()) {
+            preferencesResult.forEach(function (_child) {
+                if($(`#${_child.val()}`).is(":checkbox")) {
+                    document.getElementById(`${_child.val()}`).checked = true;
+                }else{
+                   document.getElementById(`${_child.key}`).value = _child.val();
+                }
+               
+                
+            });
+            Swal.close();
+
+            $("#editPreferences").modal('show');
+        }else{
+            Swal.close();
+
+            $("#editPreferences").modal('show'); 
+        }
+    })
+}
+
+
 
 
   function sendNewPreferenceEmail(userEmail, preferenceFormNew) {

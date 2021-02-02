@@ -46,7 +46,6 @@ $(() => {
                                                     "fname": fname,
                                                     "lname": lname,
                                                     "email": email,
-                                                    "password": password,
                                                     "specialization": specialization,
                                                     "contact": contact
                                                 };
@@ -68,7 +67,7 @@ $(() => {
                                                             position: 'center',
                                                             icon: 'success',
                                                             title: 'Successfully Registered!',
-                                                            text: 'Please wait for the Admin verification and Email Verification through your Email.',
+                                                            text: 'Please wait check your Email for Verification.',
                                                             showConfirmButton: true,
                                                         }).then(function (result) {
                                                             if (result.value) {
