@@ -328,12 +328,12 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 14px;
   display: inline-block;
 }
-
 .appointment-btn1 {
-  margin-top:10px;
+  margin-top: 10px;
   margin-left: 0;
   background: #001965;
   color: #fff;
+  margin-bottom: 20%;
   padding: 11px 74px;
   white-space: nowrap;
   transition: 0.3s;
@@ -1924,25 +1924,21 @@ font-family: 'Noto Sans', sans-serif;
 }
 
 .preferences .container{
-  background-color: white;
-margin-top: 100px;
+  
+margin-top: 50px;
 
 margin-bottom: 100px;
 align-items: center;
 }
-
-
-.preferences .container .btn-homepage{
+.preferences .container .btn-homepage {
   font-family: "Noto Sans", sans-serif;
-
   font-weight: 500;
   width: 300px;
   font-size: 14px;
-  
   display: inline-block;
   padding: 12px 35px;
-  margin-top: 30px;
-border:0px;
+  margin-top: 20%;
+  border: 0px;
   transition: 0.5s;
   color: #fff;
   background: #009fda;
