@@ -42,7 +42,7 @@ $(() => {
                                             createdUser.sendEmailVerification().then(function () {
                                                 //convert Formdata to JSON
                                                 var userData = {
-                                                    "userId": userCreds.user.uid,
+                                                    "useid": userCreds.user.uid,
                                                     "fname": fname,
                                                     "lname": lname,
                                                     "email": email,
@@ -62,6 +62,47 @@ $(() => {
                                                             text: errorMessage
                                                         })
                                                     } else {
+                                                        var preferenceData = {
+                                                            "preference0": "diabetes",
+                                                    "preference1": "obesity",
+                                                    "preference2": "biopharm",
+                                                    "preference3": "patient",
+                                                    "preference4": "promotional",
+                                                    "preference5": "sms",
+                                                    "preference6": "meeting",
+                                                    "preference7": "newsletters",
+                                                    "preference8": "oneweek",
+                                                        };
+
+                                                        var preferencesRef = firebase.database().ref(`Preferences/${userCreds.user.uid}`);
+                                                        preferencesRef.set(preferenceData, function (error) {
+                                                            if (error) {
+                                                                Swal.close();
+                                                                var errorCode = error.code;
+                                                                var errorMessage = error.message;
+                                                                Swal.fire({
+                                                                    icon: 'error',
+                                                                    title: errorCode,
+                                                                    text: errorMessage
+                                                                })
+                                                            } else {
+                                                              
+                                                                Swal.close();
+                                                                Swal.fire({
+                                                                    position: 'center',
+                                                                    icon: 'success',
+                                                                    title: 'Successfully Registered!',
+                                                                    text: 'Please wait check your Email for Verification.',
+                                                                    showConfirmButton: true,
+                                                                }).then(function (result) {
+                                                                    if (result.value) {
+                                                                        window.location.href = "index.html"
+                                                                    }
+                                                                })
+                                                            }
+                                                        });
+
+
                                                         Swal.close();
                                                         Swal.fire({
                                                             position: 'center',
