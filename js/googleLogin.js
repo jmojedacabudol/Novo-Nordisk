@@ -21,17 +21,9 @@ function loginGoogle() {
             var userRef = firebase.database().ref("Users").child(userId);
             userRef.once("value").then(result => {
                 if (result.exists()) {
-                    if (user.emailVerified === false) {
-                        Swal.close();
-                        Swal.fire({
-                            icon: 'info',
-                            title: 'Account not Verified',
-                            text: 'Please verify your account through your email.',
-                            footer: "<a onclick='verificationResend()' href='javascript:void(0)'>I did not receive any Verification Email.</a>"
-    
-                        })
-                    }
+             window.location.href="homepage.html";
                 } else {
+                    // console.log("Not Registered")
                     Swal.fire({
                         icon: "info",
                         title: "User is not registered",
