@@ -6,7 +6,7 @@
   <script src="assets/js/main.js"></script>
   <title>Novo Nordisk</title>
   <!-- Favicons -->
-  <link href="images/novo.png" rel="icon">
+  <link href="assets/imgnovo.png" rel="icon">
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
@@ -74,7 +74,7 @@
   <header id="header" class="fixed-top">
     <div class="container d-flex align-items-center">
 
-      <h1 class="logo mr-auto"><a href="index.html"><img src="images/novo.png"></a></h1>
+      <h1 class="logo mr-auto"><a href="index.html"><img src="assets/img/novo.png"></a></h1>
       <!-- Uncomment below if you prefer to use an image logo -->
       <!-- <a href="index.html" class="logo mr-auto"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
 
@@ -135,21 +135,21 @@
             <div class="row">
               <div class="col-xl-4 d-flex align-items-stretch">
                 <div class="icon-box mt-4 mt-xl-0">
-                  <img class="icon-img" src="images/icon-1.png">
+                  <img class="icon-img" src="assets/img/icon-1.png">
                   <h4>Medical Education </h4>
                   <p>Consequuntur sunt aut quasi enim aliquam quae harum pariatur laboris nisi ut aliquip</p>
                 </div>
               </div>
               <div class="col-xl-4 d-flex align-items-stretch">
                 <div class="icon-box mt-4 mt-xl-0">
-                  <img class="icon-img" src="images/icon-2.png">
+                  <img class="icon-img" src="assets/img/icon-2.png">
                   <h4>Patient Support</h4>
                   <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt</p>
                 </div>
               </div>
               <div class="col-xl-4 d-flex align-items-stretch">
                 <div class="icon-box mt-4 mt-xl-0">
-                  <img class="icon-img" src="images/icon-3.png">
+                  <img class="icon-img" src="assets/img/icon-3.png">
                   <h4>Product</h4>
                   <p>Aut suscipit aut cum nemo deleniti aut omnis. Doloribus ut maiores omnis facere</p>
                 </div>
@@ -225,10 +225,10 @@
             <div class="content">
               <div class="social">
 
-                <a id="google_login" class="circle google" href="#">
+                <a id="google_login" class="circle google" href="javascript:void(0)" onclick="loginGoogle()">
                   <i class="fa fa-google-plus fa-fw"></i>
                 </a>
-                <a id="facebook_login" class="circle facebook" href="#">
+                <a id="facebook_login" class="circle facebook" href="javascript:void(0)" onclick="loginFacebook()">
                   <i class="fa fa-facebook fa-fw"></i>
                 </a>
               </div>
@@ -260,6 +260,8 @@
                   <input id="lName" class="form-control" type="text" placeholder="Last Name" name="lname">
                   <input id="uEmail" class="form-control" type="text" placeholder="Email" name="email">
                   <input id="pwd" class="form-control" type="password" placeholder="Password" name="password">
+                  
+                  Note: Password must contain at least 1 uppercase, 1 number and 1 special character.
                   <input id="repeat-Pwd" class="form-control" type="password" placeholder="Repeat Password"
                     name="password_confirmation">
                   <input id="specialization" class="form-control" type="text" placeholder="Specialization"
@@ -300,6 +302,36 @@
       </div>
     </div>
   </div>
+
+
+
+  <div class="modal fade login" id="extraModal">
+    <div class="modal-dialog login animated">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">
+            <center>Extra Information</center>
+          </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+
+        </div>
+        <div class="modal-body">
+          <div id="registration-extraError"></div>
+          <input id="extraSpecialization" class="form-control" type="text" placeholder="Specialization"
+          name="specialization">
+          <br>
+        <input id="extraContact" class="form-control" type="number" placeholder="Contact Number"
+          name="contact"><br>
+          <button class="btn btn-default btn-login" type="button" name="commit" id="fbExtra">Proceed</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
   <script type="text/javascript">
     $(document).ready(function () {
       openLoginModal();
@@ -317,6 +349,8 @@
   <script src="https://www.gstatic.com/firebasejs/8.2.5/firebase-storage.js"></script>
   <script src="assets/js/bootstrap.js" type="text/javascript"></script>
   <script src="assets/js/login-register.js" type="text/javascript"></script>
+  <script src="js/facebookLogin.js"></script>
+  <script src="js/googleLogin.js"></script>
   <script src="js/firebase.js"></script>
   <script src="js/index.js"></script>
   <script src="js/registration.js"></script>

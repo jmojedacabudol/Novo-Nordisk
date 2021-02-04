@@ -60,7 +60,7 @@ $(() => {
                     Swal.close();
                     Swal.fire({
                         icon: 'info',
-                        title: 'Account no Verified',
+                        title: 'Account not Verified',
                         text: 'Please verify your account through your email.',
                         footer: "<a onclick='verificationResend()' href='javascript:void(0)'>I did not receive any Verification Email.</a>"
 

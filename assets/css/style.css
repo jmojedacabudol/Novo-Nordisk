@@ -350,6 +350,28 @@ h1, h2, h3, h4, h5, h6 {
   text-decoration: none;
   color: #fff;
 }
+.appointment-btn2 {
+  margin-top: 10px;
+  margin-left: 0;
+  background: #001965;
+  color: #fff;
+  margin-bottom: 5%;
+  padding: 11px 74px;
+  white-space: nowrap;
+  transition: 0.3s;
+  font-size: 14px;
+  display: inline-block;
+}
+
+.appointment-btn2:hover  {
+  background: #166ab5;
+  text-decoration: none;
+  color: #fff;
+}.appointment-btn2:hover {
+  background: #166ab5;
+  text-decoration: none;
+  color: #fff;
+}
 
 @media (max-width: 768px) {
   .appointment-btn {
@@ -488,6 +510,7 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 40px;
   text-transform: lowercase;
   color: white;
+  
 }
 
 #hero h2 {
